@@ -1,17 +1,26 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <img alt="Vue logo" src="./assets/logo.png" />
+  <p>Searched City: {{ city }}</p>
+  <Form @city="addCity" />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { ref } from "vue";
+import Form from "./components/Form.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    Form,
+  },
+  setup() {
+    const city = ref(null);
+    return {
+      addCity: (cityName) => (city.value = cityName),
+      city,
+    };
+  },
+};
 </script>
 
 <style>
