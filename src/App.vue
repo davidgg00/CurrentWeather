@@ -1,6 +1,6 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png" />
-  <Form @cityData="addCity" />
+  <Form @cityData="addCity" :repeatedCity="repeatedCity" />
   <div id="wrapperCities">
     <CityWeather :cities="cities" />
   </div>
@@ -19,12 +19,18 @@ export default {
   },
   setup() {
     const cities = ref([]);
+    const repeatedCity = ref(false);
 
     return {
       cities,
+      repeatedCity,
       addCity: (obj) => {
-        console.log(obj);
-        cities.value.push(obj);
+        if (cities.value.findIndex((s) => s.id == obj.id) === -1) {
+          cities.value.push(obj);
+          repeatedCity.value = false;
+        } else {
+          repeatedCity.value = true;
+        }
       },
     };
   },
@@ -39,5 +45,12 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+#wrapperCities {
+  margin: 70px 0 20px;
+  display: grid;
+  grid-gap: 32px 20px;
+  grid-template-columns: repeat(4, 1fr);
 }
 </style>

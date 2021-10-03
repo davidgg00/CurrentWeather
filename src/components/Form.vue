@@ -1,12 +1,18 @@
 <template>
-  <form @submit.prevent="test">
+  <form @submit.prevent="searchCity">
     <input
       type="text"
       placeholder="Search for a city"
       v-model="cityName"
       autofocus
     />
-    <button type="submit">SUBMIT</button>
+    <button type="submit">SUBMIT</button><br />
+    <span v-if="repeatedCity"
+      >The city you are looking for is already showing on the screen</span
+    >
+    <span v-if="cityNotFound"
+      >The city you were looking for could not be found</span
+    >
   </form>
 </template>
 
@@ -15,20 +21,27 @@ import { ref } from "vue";
 import weatherApi from "../api/weatherApi";
 export default {
   emits: ["cityData"],
+  props: ["repeatedCity"],
   setup(_, { emit }) {
     const cityName = ref(null);
+    const cityNotFound = ref(null);
 
-    async function test() {
-      const { data } = await weatherApi.get("", {
-        params: {
-          q: cityName.value,
-        },
-      });
-      const { id, name, main, weather } = data;
-      emit("cityData", { id, name, main, weather });
+    async function searchCity() {
+      try {
+        const { data } = await weatherApi.get("", {
+          params: {
+            q: cityName.value,
+          },
+        });
+        const { id, name, main, weather } = data;
+        emit("cityData", { id, name, main, weather });
+        cityNotFound.value = null;
+      } catch (error) {
+        cityNotFound.value = "The city you were looking for could not be found";
+      }
     }
 
-    return { cityName, test };
+    return { cityName, searchCity, cityNotFound };
   },
 };
 </script>

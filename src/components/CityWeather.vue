@@ -1,5 +1,4 @@
 <template>
-  <h1>Ciudad</h1>
   <div class="cityWeather" v-for="city in cities" :key="city.id">
     <p>{{ city.name }}</p>
     <p>{{ city.main.temp }} ºC</p>
@@ -17,7 +16,10 @@ export default {
 </script>
 
 <style scoped>
-* {
-  color: white;
+.cityWeather {
+  padding: 40px 10%;
+  border-radius: 20px;
+  background: #fff;
+  color: #53627c;
 }
 </style>
