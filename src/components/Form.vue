@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="$emit('city', cityName)">
+  <form @submit.prevent="test">
     <input
       type="text"
       placeholder="Search for a city"
@@ -12,12 +12,23 @@
 
 <script>
 import { ref } from "vue";
+import weatherApi from "../api/weatherApi";
 export default {
-  emits: ["city"],
-  setup() {
+  emits: ["cityData"],
+  setup(_, { emit }) {
     const cityName = ref(null);
 
-    return { cityName };
+    async function test() {
+      const { data } = await weatherApi.get("", {
+        params: {
+          q: cityName.value,
+        },
+      });
+      const { id, name, main, weather } = data;
+      emit("cityData", { id, name, main, weather });
+    }
+
+    return { cityName, test };
   },
 };
 </script>

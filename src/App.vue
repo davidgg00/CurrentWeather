@@ -1,23 +1,31 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png" />
-  <p>Searched City: {{ city }}</p>
-  <Form @city="addCity" />
+  <Form @cityData="addCity" />
+  <div id="wrapperCities">
+    <CityWeather :cities="cities" />
+  </div>
 </template>
 
 <script>
 import { ref } from "vue";
 import Form from "./components/Form.vue";
+import CityWeather from "./components/CityWeather.vue";
 
 export default {
   name: "App",
   components: {
     Form,
+    CityWeather,
   },
   setup() {
-    const city = ref(null);
+    const cities = ref([]);
+
     return {
-      addCity: (cityName) => (city.value = cityName),
-      city,
+      cities,
+      addCity: (obj) => {
+        console.log(obj);
+        cities.value.push(obj);
+      },
     };
   },
 };
