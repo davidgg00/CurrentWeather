@@ -7,10 +7,10 @@
       autofocus
     />
     <button type="submit">SUBMIT</button><br />
-    <span v-if="repeatedCity"
+    <span :style="{ visibility: repeatedCity ? 'visible' : 'hidden' }"
       >The city you are looking for is already showing on the screen</span
-    >
-    <span v-if="cityNotFound"
+    ><br />
+    <span :style="{ visibility: cityNotFound ? 'visible' : 'hidden' }"
       >The city you were looking for could not be found</span
     >
   </form>
@@ -36,6 +36,7 @@ export default {
         const { id, name, main, weather } = data;
         emit("cityData", { id, name, main, weather });
         cityNotFound.value = null;
+        cityName.value = null;
       } catch (error) {
         cityNotFound.value = "The city you were looking for could not be found";
       }
@@ -57,6 +58,7 @@ input {
   background: none;
   outline: none;
   color: inherit;
+  margin: 0 5px;
 }
 
 input {
@@ -74,5 +76,9 @@ button {
   padding: 15px 20px;
   border-radius: 5px;
   background-color: #ff1e42;
+}
+
+span {
+  color: #d9534f;
 }
 </style>
