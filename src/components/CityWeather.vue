@@ -1,25 +1,23 @@
 <template>
-  <div class="cityWeather" v-for="city in cities" :key="city.id">
+  <div class="cityWeather animate__animated animate__fadeInLeft" v-for="city in cities" :key="city.id">
     <p>{{ city.name }}</p>
     <p>{{ roundedTemperature(city.main.temp) }}</p>
     <p>{{ city.weather[0].main }}</p>
-    <img
-      :src="require('../assets/weatherIcons/' + city.weather[0].icon + '.png')"
-    />
+    <img :src="getWeatherIconPath(city.weather[0].icon)" />
   </div>
 </template>
 
-<script>
-export default {
-  props: ["cities"],
-  setup() {
-    /* const roundedTemperature = computed((temp) => Math.round(temp)); */
-    return {
-      roundedTemperature: (temp) => {
-        return Math.round(temp) + " ºC";
-      },
-    };
-  },
+<script setup lang="ts">
+import { defineProps } from "vue";
+
+const { cities }: { cities?: Array<any> } = defineProps(["cities"]);
+
+const roundedTemperature = (temp: number): string => {
+  return Math.round(temp) + " ºC";
+};
+
+const getWeatherIconPath = (icon: string): string => {
+  return `../src/assets/weatherIcons/${icon}.png`;
 };
 </script>
 

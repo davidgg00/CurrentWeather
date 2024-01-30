@@ -1,8 +1,8 @@
 # CurrentWeather
 
-This application developed in Vue 3 allows you to find the current weather of the cities you are looking for using the api of https://openweathermap.org/
+This application developed in Vue 3 + TypeScript + Vite allows you to find the current weather of the cities you are looking for using the api of https://openweathermap.org/
 
-Demo: https://currentweather-davidgg00.herokuapp.com/
+Demo: https://currentweather.davidguisado.dev
 
 ## Project setup
 

@@ -1,50 +1,39 @@
 <template>
   <form @submit.prevent="searchCity">
-    <input
-      type="text"
-      placeholder="Search for a city"
-      v-model="cityName"
-      autofocus
-    />
+    <input type="text" placeholder="Search for a city" v-model="cityName" autofocus />
     <button type="submit">SUBMIT</button><br />
-    <span :style="{ visibility: repeatedCity ? 'visible' : 'hidden' }"
-      >The city you are looking for is already showing on the screen</span
-    ><br />
-    <span :style="{ visibility: cityNotFound ? 'visible' : 'hidden' }"
-      >The city you were looking for could not be found</span
-    >
+    <span :style="{ visibility: repeatedCity ? 'visible' : 'hidden' }">The city you are looking for is already showing on
+      the screen</span><br />
+    <span :style="{ visibility: cityNotFound ? 'visible' : 'hidden' }">The city you were looking for could not be
+      found</span>
   </form>
 </template>
 
-<script>
-import { ref } from "vue";
-import weatherApi from "../api/weatherApi";
-export default {
-  emits: ["cityData"],
-  props: ["repeatedCity"],
-  setup(_, { emit }) {
-    const cityName = ref(null);
-    const cityNotFound = ref(null);
+<script setup lang="ts">
+import { ref, defineProps, defineEmits } from "vue";
+import weatherApi from "../../api/weatherApi";
 
-    async function searchCity() {
-      try {
-        const { data } = await weatherApi.get("", {
-          params: {
-            q: cityName.value,
-          },
-        });
-        const { id, name, main, weather } = data;
-        emit("cityData", { id, name, main, weather });
-        cityNotFound.value = null;
-        cityName.value = null;
-      } catch (error) {
-        cityNotFound.value = "The city you were looking for could not be found";
-      }
-    }
+const { repeatedCity }: { repeatedCity?: boolean } = defineProps(["repeatedCity"]);
+const cityName = ref<string | null>(null);
+const cityNotFound = ref<string | null>(null);
+const emit = defineEmits(["cityData"]);
 
-    return { cityName, searchCity, cityNotFound };
-  },
-};
+async function searchCity(): Promise<void> {
+  try {
+    const { data } = await weatherApi.get("", {
+      params: {
+        q: cityName.value,
+      },
+    });
+    const { id, name, main, weather } = data;
+    emit("cityData", { id, name, main, weather });
+    cityNotFound.value = null;
+    cityName.value = null;
+  } catch (error) {
+    console.log(error);
+    cityNotFound.value = "The city you were looking for could not be found";
+  }
+}
 </script>
 
 <style scoped>
@@ -80,5 +69,7 @@ button {
 
 span {
   color: #d9534f;
+  margin-top: 40px;
+  font-weight: bold;
 }
 </style>
