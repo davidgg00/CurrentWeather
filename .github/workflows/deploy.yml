@@ -47,7 +47,7 @@ jobs:
 
       - name: SSH into VPS using Cloudflared Tunnel
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_HOST }} "cd projects/testghaction/ && \
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_HOST }} "cd projects/CurrentWeather/ && \
           docker-compose down || true && \
           git pull || true && \
           docker-compose up -d --build"
