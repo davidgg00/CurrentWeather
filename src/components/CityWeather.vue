@@ -17,7 +17,8 @@ const roundedTemperature = (temp: number): string => {
 };
 
 const getWeatherIconPath = (icon: string): string => {
-  return `../src/assets/weatherIcons/${icon}.png`;
+  // Ahora apunta a una ruta dentro de la carpeta 'public'
+  return `/assets/weatherIcons/${icon}.png`;
 };
 </script>
 

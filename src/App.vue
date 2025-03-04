@@ -1,7 +1,7 @@
 <template>
   <div class="animate__animated animate__fadeIn">
     <h1>Current Weather App</h1>
-    <img alt="logo" src="./assets/logo3.svg" id="logo" />
+    <img alt="logo" src="/assets/logo3.svg" id="logo" />
     <Form @cityData="addCity" :repeatedCity="repeatedCity" />
     <div id="wrapperCities">
       <CityWeather :cities="cities" />
